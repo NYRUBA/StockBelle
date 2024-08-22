@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Paint and Sip Uganda</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add this script in your HTML head -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <h2>Inventory Management</h2>
+    <input type="text" id="adminItemName" placeholder="Item Name">
+    <input type="number" id="adminItemQuantity" placeholder="Quantity">
+    <input type="number" id="adminItemPrice" placeholder="Price (UGX)">
+    <button id="adminAddItemBtn">Add Item</button>
+
+    <h2>Current Inventory</h2>
+    <ul id="adminInventoryList"></ul>
+
+    <h2>Sales Log</h2>
+    <ul id="adminSalesLog"></ul>
+
+    <h2>Stock Requests</h2>
+    <ul id="stockRequests"></ul>
+
+    <h2>Reports</h2>
+    <canvas id="adminSalesChart" width="400" height="200"></canvas>
+
+    <h2>Dashboard</h2>
+    <p>Total Sales: UGX <span id="adminTotalSales">0</span></p>
+    <p>Current Inventory Value: UGX <span id="adminInventoryValue">0</span></p>
+
+    <script src="admin.js"></script>
+</body>
+</html>
