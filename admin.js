@@ -5,12 +5,13 @@ const stockRequests = JSON.parse(localStorage.getItem('stockRequests')) || [];
 document.getElementById('adminAddItemBtn').addEventListener('click', addItem);
 document.getElementById('adminItemQuantity').addEventListener('change', checkLowStock);
 
+//save alldata to local storage
 function saveData() {
     localStorage.setItem('inventory', JSON.stringify(adminInventory));
     localStorage.setItem('sales', JSON.stringify(adminSales));
     localStorage.setItem('stockRequests', JSON.stringify(stockRequests));
 }
-
+// load all data from localstorage and update the dashboard
 function loadData() {
     displayInventory();
     displaySalesLog();
@@ -19,6 +20,7 @@ function loadData() {
     updateDashboard();
 }
 
+//run loaddata when th paage loads
 window.onload = loadData;
 
 function addItem() {
@@ -45,17 +47,24 @@ function displayInventory() {
         const listItem = document.createElement('li');
         listItem.textContent = `${item.name} - Quantity: ${item.quantity} - Price: UGX ${item.price.toFixed(2)}`;
 
+        //check if stock is low
         if (item.quantity < 5) {
             listItem.style.color = 'red';
             listItem.textContent += ' (Low Stock!)';
         }
 
-        const sellButton = document.createElement('button');
-        sellButton.textContent = 'Sell';
-        sellButton.addEventListener('click', () => sellItem(index));
-        listItem.appendChild(sellButton);
+            inventoryList.appendChild(listItem);
+    });
+}
 
-        inventoryList.appendChild(listItem);
+function displaySalesLog() {
+    const salesLog = document.getElementById('salesLog');
+    salesLog.innerHTML = '';
+
+    adminSales.forEach(sale => {
+        const logItem = document.createElement('li');
+        logItem.textContent = `Sold: ${sale.name} - Price: UGX ${sale.price.toFixed(2)} - Date: ${sale.date}`;
+        salesLog.appendChild(logItem);
     });
 }
 
@@ -107,6 +116,8 @@ function generateSalesReport() {
         }
     });
 }
+
+
 
 function updateDashboard() {
     const totalSales = adminSales.reduce((acc, sale) => acc + sale.price, 0);
