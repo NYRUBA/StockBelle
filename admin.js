@@ -1,7 +1,9 @@
+//Load Data from Local Storage
 const adminInventory = JSON.parse(localStorage.getItem('inventory')) || [];
 const adminSales = JSON.parse(localStorage.getItem('sales')) || [];
 const stockRequests = JSON.parse(localStorage.getItem('stockRequests')) || [];
 
+// Event Listeners
 document.getElementById('adminAddItemBtn').addEventListener('click', addItem);
 document.getElementById('adminItemQuantity').addEventListener('change', checkLowStock);
 
@@ -20,9 +22,10 @@ function loadData() {
     updateDashboard();
 }
 
-//run loaddata when th paage loads
+//run loaddata when the page loads
 window.onload = loadData;
 
+//Function to add an item to the inventory (admin only)
 function addItem() {
     const name = document.getElementById('adminItemName').value.trim();
     const quantity = parseInt(document.getElementById('adminItemQuantity').value);
@@ -39,6 +42,7 @@ function addItem() {
     updateDashboard();
 }
 
+//Function to display inventory with Low stock Alerts
 function displayInventory() {
     const inventoryList = document.getElementById('adminInventoryList');
     inventoryList.innerHTML = '';
@@ -57,28 +61,31 @@ function displayInventory() {
     });
 }
 
+//Functions to display sales log and Stock Requests(Admin Only)
 function displaySalesLog() {
     const salesLog = document.getElementById('salesLog');
     salesLog.innerHTML = '';
 
     adminSales.forEach(sale => {
         const logItem = document.createElement('li');
-        logItem.textContent = `Sold: ${sale.name} - Price: UGX ${sale.price.toFixed(2)} - Date: ${sale.date}`;
+        logItem.textContent = `Sold: ${sale.name} - Price: UGX ${sale.price.toFixed(2)} - Date: ${sale.date} - By: ${sale.staffMember}`;
         salesLog.appendChild(logItem);
     });
 }
 
+//Function to display stock Requests
 function displayStockRequests() {
     const requestList = document.getElementById('stockRequests');
     requestList.innerHTML = '';
 
     stockRequests.forEach((request, index) => {
         const requestItem = document.createElement('li');
-        requestItem.textContent = `${request.name} - Quantity: ${request.quantity}`;
+        requestItem.textContent = `${request.name} - Quantity: ${request.quantity}- Requested by: ${request.staffMember} - Date: ${request.date}`;
         requestList.appendChild(requestItem);
     });
 }
 
+//Function to check for low stock
 function checkLowStock() {
     const item = adminInventory.find(item => item.quantity < 5);
     if (item) {
@@ -86,6 +93,7 @@ function checkLowStock() {
     }
 }
 
+//Generate a basic sales Report using chart.js(Admin only)
 function generateSalesReport() {
     const salesChartCtx = document.getElementById('adminSalesChart').getContext('2d');
 
@@ -117,8 +125,7 @@ function generateSalesReport() {
     });
 }
 
-
-
+//Update the dashboard with total sales and inventory value in real time
 function updateDashboard() {
     const totalSales = adminSales.reduce((acc, sale) => acc + sale.price, 0);
     document.getElementById('adminTotalSales').textContent = totalSales.toFixed(2);
@@ -127,3 +134,8 @@ function updateDashboard() {
     document.getElementById('adminInventoryValue').textContent = inventoryValue.toFixed(2);
 }
 
+//Admin logout functionality
+function logout() {
+    localStorage.removeItem('loggedInUser');
+    window.location.href = "adminlogin.html";
+}
