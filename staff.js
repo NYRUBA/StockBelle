@@ -4,35 +4,21 @@ const staffUsers = [
     { username: "staff2", password: "password2" }
 ];
 
+let loggedInStaff = null; // Store the logged-in staff member
+
+
 // Simulating staff login
 function staffLogin(username, password) {
     const user = staffUsers.find(user => user.username === username && user.password === password);
     if (user) {
+        loggedInStaff = user.username; // Store the logged-in staff member
+        localStorage.setItem('loggedInStaff', JSON.stringify(loggedInStaff)); // Persist login state
         alert('Login successful!');
         // Redirect to the staff dashboard (limited access)
-        window.location.href = "staff-dashboard.html";
+        window.location.href = "staff.html";
     } else {
         alert('Invalid credentials. Please try again.');
     }
-}
-
-// Example function for staff to request more stock
-function requestStock(itemName, requestedQuantity) {
-    if (!itemName || requestedQuantity <= 0) {
-        alert("Invalid item or quantity.");
-        return;
-    }
-
-    const stockRequest = {
-        itemName,
-        requestedQuantity,
-        date: new Date().toLocaleString(),
-        staffMember: "staff1" // Assume this is the logged-in staff member
-    };
-
-    // Save the stock request (this could be sent to admin)
-    localStorage.setItem('stockRequest', JSON.stringify(stockRequest));
-    alert(`Stock request for ${itemName} submitted.`);
 }
 
 // Display available inventory for staff
@@ -59,7 +45,7 @@ function sellItem(index) {
             name: inventory[index].name,
             price: inventory[index].price,
             date: new Date().toLocaleString(),
-            staffMember: "staff1" // Assume this is the logged-in staff member
+            staffMember: loggedInStaff // Assume this is the logged-in staff member
         });
 
         // Update local storage
@@ -68,10 +54,47 @@ function sellItem(index) {
 
         // Update UI
         displayAvailableInventory();
-        alert('Item sold successfully!');
+        alert(`Item sold successfully by ${loggedInStaff}!`);
     } else {
-        alert('Out of stock!');
+        alert('Out of stock! Please request more stock.');
     }
+}
+
+// Function for staff to request more stock
+function requestStock(itemName, requestedQuantity) {
+    if (!itemName || requestedQuantity <= 0) {
+        alert("Invalid item or quantity.");
+        return;
+    }
+
+    const stockRequest = {
+        itemName,
+        requestedQuantity,
+        date: new Date().toLocaleString(),
+        staffMember: loggedInStaff // Log the current staff member
+    };
+
+    const currentRequests = JSON.parse(localStorage.getItem('stockRequests')) || [];
+    currentRequests.push(stockRequest);
+
+    // Save the updated stock request (this could be sent to admin)
+    localStorage.setItem('stockRequest', JSON.stringify(currentRequests));
+    alert(`Stock request for ${itemName} submitted.`);
+}
+
+
+
+// Function to display the sales log (only accessible by admin or relevant staff)
+function displaySalesLog() {
+    const sales = JSON.parse(localStorage.getItem('sales')) || [];
+    const salesLog = document.getElementById('salesLog');
+    salesLog.innerHTML = '';
+
+    sales.forEach(sale => {
+        const logItem = document.createElement('li');
+        logItem.textContent = `Sold: ${sale.name} - Price: UGX ${sale.price.toFixed(2)} - Date: ${sale.date} - By: ${sale.staffMember}`;
+        salesLog.appendChild(logItem);
+    });
 }
 
 // Example usage for login
@@ -90,3 +113,8 @@ document.getElementById('requestStockBtn').addEventListener('click', () => {
 
 // Display inventory when the page loads
 window.onload = displayAvailableInventory;
+
+function logout() {
+    localStorage.removeItem('loggedInUser');
+    window.location.href = "stafflogin.html";
+}
