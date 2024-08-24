@@ -1,32 +1,25 @@
+/* General Page Styles */
 body {
     font-family: Arial, sans-serif;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
     background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
 }
 
 h1, h2 {
-    color: #333;
+    text-align: center;
+    color: #444;
 }
 
-.inventory-section, #inventoryList, #salesLog {
-    margin-bottom: 20px;
-}
-
-input, button {
-    margin: 5px 0;
-    padding: 10px;
-    font-size: 16px;
-}
-
-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #218838;
+div {
+    background: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
 }
 
 ul {
@@ -35,12 +28,61 @@ ul {
 }
 
 li {
+    background: #f9f9f9;
+    margin: 10px 0;
     padding: 10px;
-    background: white;
-    margin: 5px 0;
-    border: 1px solid #ddd;
+    border-left: 5px solid #007BFF;
+    border-radius: 3px;
 }
 
-li button {
-    float: right;
+li.red {
+    border-left-color: #ff0000;
+    color: #d9534f;
+}
+
+/* Buttons and Inputs */
+input, button {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Chart Section (Admin Dashboard) */
+canvas {
+    margin: 20px auto;
+    display: block;
+    max-width: 100%;
+}
+
+/* Dashboard Metrics */
+section p {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #444;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    section {
+        padding: 10px;
+    }
+
+    input, button {
+        padding: 8px;
+    }
 }
