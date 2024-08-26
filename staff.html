@@ -38,28 +38,18 @@
 
  <!-- Section for Displaying Inventory -->
 
-  <div class="inventory-section">
-    <h2>Add Item to Inventory</h2>
-    <input type="text" id="itemName" placeholder="Item Name">
-    <input type="number" id="itemQuantity" placeholder="Quantity">
-    <input type="number" id="itemPrice" placeholder="Price (UGX)">
-    <button id="addItemBtn">Add Item</button>
-</div>
-
 <h2>Current Inventory</h2>
 <ul id="inventoryList"></ul>
 
 <h2>Sales Log</h2>
 <ul id="salesLog"></ul>
 
-<h2>Reports</h2>
-<canvas id="salesChart" width="400" height="200"></canvas>
-
-<h2>Dashboard</h2>
-<p>Total Sales: UGX <span id="totalSales">0</span></p>
-<p>Current Inventory Value: UGX <span id="inventoryValue">0</span></p>
-
-
+<div class="inventory-section">
+  <h2>Request Stock</h2>
+  <input type="text" id="itemName" placeholder="Item Name">
+  <input type="number" id="itemQuantity" placeholder="Quantity">
+      <button id="requestStockBtn">Request Stock</button>
+</div>
 
 
 

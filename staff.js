@@ -2,7 +2,7 @@
 const inventory = [];
 const sales = [];
 
-document.getElementById('addItemBtn').addEventListener('click', addItem);
+document.getElementById('requestStockBtn').addEventListener('click', requestStock);
 
 //Save inventory and sales data to local storage
 function saveData() {
@@ -34,10 +34,10 @@ window.onload = function(){
     updateDashboard();
 };
 
-function addItem() {
+function requestStock() {
     const name = document.getElementById('itemName').value.trim;
     const quantity = parseInt(document.getElementById('itemQuantity').value);
-    const price = parseFloat(document.getElementById('itemPrice').value);
+    
 
    // Input validation
    if (!name) {
@@ -49,12 +49,8 @@ if (isNaN(quantity) || quantity <= 0) {
     return;
 }
 
-if (isNaN(price) || price <= 0) {
-    alert('Price must be a positive number.');
-    return;
-}
 
-inventory.push({ name, quantity, price });
+inventory.push({ name, quantity });
 displayInventory();
 saveData();
 updateDashboard();
@@ -83,46 +79,7 @@ function displayInventory() {
     });
 }
 
-function generateSalesReport() {
-    const salesChartCtx = document.getElementById('salesChart').getContext('2d');
 
-    const salesData = sales.reduce((acc, sale) => {
-        acc.labels.push(sale.name);
-        acc.data.push(sale.price);
-        return acc;
-    }, { labels: [], data: [] });
-
-    new Chart(salesChartCtx, {
-        type: 'bar',
-        data: {
-            labels: salesData.labels,
-            datasets: [{
-                label: 'Sales (UGX)',
-                data: salesData.data,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
-function updateDashboard() {
-    // Calculate total sales
-    const totalSales = sales.reduce((acc, sale) => acc + sale.price, 0);
-    document.getElementById('totalSales').textContent = totalSales.toFixed(2);
-
-    // Calculate current inventory value
-    const inventoryValue = inventory.reduce((acc, item) => acc + (item.quantity * item.price), 0);
-    document.getElementById('inventoryValue').textContent = inventoryValue.toFixed(2);
-}
 
 function sellItem(index) {
     if (inventory[index].quantity > 0) {
