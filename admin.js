@@ -146,3 +146,4 @@ function displaySalesLog() {
         salesLog.appendChild(logItem);
     });
 }
+
