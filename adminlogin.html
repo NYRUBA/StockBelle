@@ -7,22 +7,91 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
             /* Set the background image */
             background-image: url('images/bg4.jpg'); /* Replace with your image path */
             background-size:cover; /* Makes sure the image covers the whole background */
             background-position: center; /* Centers the background image */
             background-repeat: no-repeat; /* Prevents the image from repeating */
             height: 100vh; /* Ensures the background covers the full viewport height */
-            margin: 0;
+            
             padding: 0;
         }
+        .login {display: flexbox;
+            justify-content: center;
+            align-items: center;
+            margin:0;
+            background-image:('images/bg3.png');
+
+        }
+        .login a {
+            display: block;
+            margin: 50px 0;
+            padding: 10px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #007bff;
+            border-radius: 5px;
+            font-size: 20px;
+            font-style: oblique;
+            text-align: center;
+            
+        }
+
+        .login a:hover {
+            background-color: #0056b3;
+        }
+h1 {
+    margin:10px 0;
+    font-size:40px ;
+    
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+h2{
+    margin:5px;
+    font-size:80px ;
+    
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+#adminUsername{
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+
+#adminPassword{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#adminLoginBtn{
+margin-top: 0px;
+}
+
+img{float:right; /* Float the image to the left */
+            margin: 0 15px 15px 15px; /* Add some space around the image */
+            margin-bottom:500px ;
+            width: 150px; /* Adjust width as needed */
+            height: auto;
+    
+    
+    
+}
+
+
     </style>
 </head>
 <body>
-    <h1>Paint and Sip Uganda: Login</h1>
-    
-    <div class="login-section">
-        <h2>Admin Login</h2>
+    <img src="images/paint and sip 2.png" alt="">
+    <br>
+    <div class="login">
+        <h2>Admin</h2>
+        <hr>
         <input type="text" id="adminUsername" placeholder="Username">
         <input type="password" id="adminPassword" placeholder="Password">
         <a href="admin.html"> 
