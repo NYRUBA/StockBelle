@@ -1,6 +1,7 @@
 
 const inventory = [];
 const sales = [];
+const stockRequests =[];
 
 document.getElementById('requestStockBtn').addEventListener('click', requestStock);
 
@@ -34,27 +35,7 @@ window.onload = function(){
     updateDashboard();
 };
 
-function requestStock() {
-    const name = document.getElementById('itemName').value.trim;
-    const quantity = parseInt(document.getElementById('itemQuantity').value);
-    
 
-   // Input validation
-   if (!name) {
-    alert('Item name is required.');
-    return;
-}
-if (isNaN(quantity) || quantity <= 0) {
-    alert('Quantity must be a positive number.');
-    return;
-}
-
-
-inventory.push({ name, quantity });
-displayInventory();
-saveData();
-updateDashboard();
-}
 
 function displayInventory() {
     const inventoryList = document.getElementById('inventoryList');
@@ -62,12 +43,12 @@ function displayInventory() {
 
     inventory.forEach((item, index) => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${item.name} - Quantity: ${item.quantity} - Price: UGX ${item.price.toFixed(2)}`;
+        listItem.textContent = `Item name: ${item.name} - Quantity: ${item.quantity} - Price: UGX ${item.price.toFixed(2)}`;
 
 // Check if stock is low
         if (item.quantity < 5) {
             listItem.style.color = 'red';
-            listItem.textContent += ' (Low Stock!)';
+            listItem.textContent += ' (Request Stock!)';
         }
 
         const sellButton = document.createElement('button');
@@ -109,4 +90,27 @@ function displaySalesLog() {
         logItem.textContent = `Sold: ${sale.name} - Price: UGX ${sale.price.toFixed(2)} - Date: ${sale.date}`;
         salesLog.appendChild(logItem);
     });
+}
+
+function requestStock() {
+    const name = document.getElementById('itemName').value.trim;
+    const quantity = parseInt(document.getElementById('itemQuantity').value);
+    
+
+   // Input validation
+   if (!name) {
+    alert('Item name is required.');
+    return;
+}
+if (isNaN(quantity) || quantity <= 0) {
+    alert('Quantity must be a positive number.');
+    return;
+}
+
+    const currentRequests = JSON.parse(localStorage.getItem('stockRequests')) || [];
+    currentRequests.push(stockRequest);
+
+    // Save the updated stock request (this could be sent to admin)
+    localStorage.setItem('stockRequests', JSON.stringify(currentRequests));
+    alert(`Stock request for ${itemName} submitted.`);
 }

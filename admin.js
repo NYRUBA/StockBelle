@@ -1,41 +1,34 @@
 
-const inventory = [];
-const sales = [];
+const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+const sales = JSON.parse(localStorage.getItem('sales')) || [];
+const stockRequests = JSON.parse(localStorage.getItem('stockRequests')) || [];
+
 
 document.getElementById('addItemBtn').addEventListener('click', addItem);
+document.getElementById('itemQuantity').addEventListener('change', checkLowStock);
+
 
 //Save inventory and sales data to local storage
 function saveData() {
     localStorage.setItem('inventory', JSON.stringify(inventory));
     localStorage.setItem('sales', JSON.stringify(sales));
+    localStorage.setItem('stockRequests', JSON.stringify(stockRequests));
 }
 
 // Load inventory and sales data from localStorage
 function loadData() {
-    const storedInventory = localStorage.getItem('inventory');
-    const storedSales = localStorage.getItem('sales');
-
-    if (storedInventory) {
-        inventory.push(...JSON.parse(storedInventory));
-    }
-    if (storedSales) {
-        sales.push(...JSON.parse(storedSales));
-    }
-
     displayInventory();
     displaySalesLog();
+    displayStockRequests();
+    generateSalesReport();
     updateDashboard();
 }
 
 // Run loadData, GenerateSalesReport and updateDashboard when the page loads to retrieve saved data
-window.onload = function(){
-    loadData();
-    generateSalesReport();
-    updateDashboard();
-};
+window.onload = loadData;
 
 function addItem() {
-    const name = document.getElementById('itemName').value.trim;
+    const name = document.getElementById('itemName').value.trim();
     const quantity = parseInt(document.getElementById('itemQuantity').value);
     const price = parseFloat(document.getElementById('itemPrice').value);
 
@@ -50,7 +43,7 @@ if (isNaN(quantity) || quantity <= 0) {
 }
 
 if (isNaN(price) || price <= 0) {
-    alert('Price must be a positive number.');
+    alert('Invalid input.');
     return;
 }
 
@@ -71,9 +64,8 @@ function displayInventory() {
 // Check if stock is low
         if (item.quantity < 5) {
             listItem.style.color = 'red';
-            listItem.textContent += ' (Low Stock!)';
+            listItem.textContent += ' (Add Item!)';
         }
-
         const sellButton = document.createElement('button');
         sellButton.textContent = 'Sell';
         sellButton.addEventListener('click', () => sellItem(index));
@@ -81,6 +73,7 @@ function displayInventory() {
 
         inventoryList.appendChild(listItem);
     });
+        
 }
 
 function generateSalesReport() {
