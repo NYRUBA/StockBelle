@@ -12,6 +12,7 @@
     <style>
       body {
         background-color:#111 ;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 }
 img{
@@ -21,7 +22,45 @@ img{
             height: auto;
         }
     
+#addItemBtn{
+  color: #111;
+  background-color: #ffd964;
+
+        }
+
+        .navbar-toggler{
+          color: #111;
+          background-color: #ffd964;
+
+        }
+
+      
+
+        
+  .navbar-toggler-icon{
+    background-color: #ffd964;
+  }
     
+
+  .button:hover{
+    background-color: black;
+   
+  }
+  
+
+  
+h1{
+  color: black;
+}
+
+ul{
+  color: #111;;
+}
+
+#inventoryList{
+background-color: #f4f4f4;
+margin: 0;
+}
   </style>
 </head>
 
@@ -108,6 +147,11 @@ img{
 <p>Current Inventory Value: UGX <span id="inventoryValue"></span></p>
 </div>
 </section>
+
+<button onclick="clearLocalStorage()">Clear Local Storage</button>
+<button onclick="clearSessionStorage()">Clear Session Storage</button>
+
+
 
 
 

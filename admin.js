@@ -8,6 +8,12 @@ document.getElementById('addItemBtn').addEventListener('click', addItem);
 document.getElementById('itemQuantity').addEventListener('change', checkLowStock);
 
 
+window.onload = function(){
+    loadData();
+    generateSalesReport();
+    updateDashboard();
+
+}
 //Save inventory and sales data to local storage
 function saveData() {
     localStorage.setItem('inventory', JSON.stringify(inventory));
@@ -17,6 +23,19 @@ function saveData() {
 
 // Load inventory and sales data from localStorage
 function loadData() {
+    const storedInventory = localStorage.getItem('inventory');
+    const storedSales = localStorage.getItem('sales');
+const storedstockRequests =localStorage.getItem('stockRequests');
+
+    if (storedInventory) {
+        inventory.push(...JSON.parse(storedInventory));
+    }
+    if (storedSales) {
+        sales.push(...JSON.parse(storedSales));
+    }
+    if (storedstockRequests){
+        stockRequests.push(...JSON.parse(storedstockRequests));
+    }
     displayInventory();
     displaySalesLog();
     displayStockRequests();
@@ -25,8 +44,29 @@ function loadData() {
 }
 
 // Run loadData, GenerateSalesReport and updateDashboard when the page loads to retrieve saved data
-window.onload = loadData;
 
+function displayInventory() {
+    const inventoryList = document.getElementById('inventoryList');
+    inventoryList.innerHTML = '';
+
+    inventory.forEach((item, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${item.name} - Quantity: ${item.quantity} - Price: UGX ${item.price.toFixed(2)}`;
+
+// Check if stock is low
+        if (item.quantity < 5) {
+            listItem.style.color = 'red';
+            listItem.textContent += ' (Add Item!)';
+        }
+        const sellButton = document.createElement('button');
+        sellButton.textContent = 'Sell';
+        sellButton.addEventListener('click', () => sellItem(index));
+        listItem.appendChild(sellButton);
+
+        inventoryList.appendChild(listItem);
+    });
+        
+}
 function addItem() {
     const name = document.getElementById('itemName').value.trim();
     const quantity = parseInt(document.getElementById('itemQuantity').value);
@@ -53,28 +93,7 @@ saveData();
 updateDashboard();
 }
 
-function displayInventory() {
-    const inventoryList = document.getElementById('inventoryList');
-    inventoryList.innerHTML = '';
 
-    inventory.forEach((item, index) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${item.name} - Quantity: ${item.quantity} - Price: UGX ${item.price.toFixed(2)}`;
-
-// Check if stock is low
-        if (item.quantity < 5) {
-            listItem.style.color = 'red';
-            listItem.textContent += ' (Add Item!)';
-        }
-        const sellButton = document.createElement('button');
-        sellButton.textContent = 'Sell';
-        sellButton.addEventListener('click', () => sellItem(index));
-        listItem.appendChild(sellButton);
-
-        inventoryList.appendChild(listItem);
-    });
-        
-}
 
 function generateSalesReport() {
     const salesChartCtx = document.getElementById('salesChart').getContext('2d');
@@ -147,3 +166,12 @@ function displaySalesLog() {
     });
 }
 
+function clearLocalStorage() {
+    localStorage.clear();
+    alert('Local Storage has been cleared.');
+}
+
+function clearSessionStorage() {
+    sessionStorage.clear();
+    alert('Session Storage has been cleared.');
+}
